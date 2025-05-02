@@ -10,7 +10,6 @@ import csv
 
 csv_file = "rezultate.csv"
 
-# Initialize CSV cu un singur câmp 'strategie'
 with open(csv_file, mode='w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(['Algoritm', 'Strategie', 'Satisfiabil', 'Timp (s)', 'Memorie (MB)'])
@@ -290,7 +289,7 @@ def masurare_performanta(K):
 
                 log_rezultat(
                     algoritm="DP",
-                    strategie="",      # DP nu are strategie suplimentară
+                    strategie="",
                     satisfiabil=sat,
                     timp=timp,
                     mem=mem_mb
