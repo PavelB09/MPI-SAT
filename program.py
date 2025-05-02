@@ -2,6 +2,29 @@ import os
 import copy
 import time
 import tracemalloc
+import csv
+
+csv_file = "rezultate.csv"
+
+import csv
+
+csv_file = "rezultate.csv"
+
+# Initialize CSV cu un singur câmp 'strategie'
+with open(csv_file, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(['Algoritm', 'Strategie', 'Satisfiabil', 'Timp (s)', 'Memorie (MB)'])
+
+def log_rezultat(algoritm, strategie="", satisfiabil="", timp=0.0, mem=0.0):
+    with open(csv_file, 'a', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow([
+            algoritm,
+            strategie,
+            satisfiabil,
+            f"{timp:.6f}",
+            f"{mem:.6f}"
+        ])
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -217,72 +240,96 @@ def masurare_performanta(K):
 
         match optiune:
             case "1":
+                # --- Rezolutie ---
                 print("\nMetode de rezolutie:")
                 print("1. clasica")
                 print("2. scurta")
                 sub = input("Alege (1/2): ")
-                if sub == "1":
-                    metoda = "clasica"
-                elif sub == "2":
-                    metoda = "scurta"
-                else:
+                strategie = "clasica" if sub == "1" else "scurta" if sub == "2" else None
+                if strategie is None:
                     print("Optiune invalida pentru rezolutie.")
                     continue
 
-                print(f"Se executa Rezolutie ({metoda}) cu masurarea performantei...")
                 tracemalloc.start()
                 inceput = time.perf_counter()
-                rezultat = rezolutie(K, metoda)
+                rezultat = rezolutie(K, strategie)
                 sfarsit = time.perf_counter()
-                mem_curenta, mem_varf = tracemalloc.get_traced_memory()
+                mem_before, mem_varf = tracemalloc.get_traced_memory()
                 tracemalloc.stop()
 
-                print(f"\nRezolutie ({metoda}):", "Satisfiabil" if rezultat else "Nesatisfiabil")
-                print(f"Timp de executie: {sfarsit - inceput:.6f} secunde")
-                print(f"Memorie utilizata (varf): {mem_varf / 10**6:.6f} MB")
+                timp = sfarsit - inceput
+                mem_mb = mem_varf / 10**6
+                sat = "Satisfiabil" if rezultat else "Nesatisfiabil"
+
+                print(f"\nRezolutie ({strategie}): {sat}")
+                print(f"Timp: {timp:.6f}s, Memorie: {mem_mb:.6f}MB")
+
+                log_rezultat(
+                    algoritm="Rezolutie",
+                    strategie=strategie,
+                    satisfiabil=sat,
+                    timp=timp,
+                    mem=mem_mb
+                )
 
             case "2":
-                print("Se executa algoritmul DP cu masurarea performantei...")
+                # --- DP ---
                 tracemalloc.start()
                 inceput = time.perf_counter()
                 rezultat = DP(K)
                 sfarsit = time.perf_counter()
-                mem_curenta, mem_varf = tracemalloc.get_traced_memory()
+                mem_before, mem_varf = tracemalloc.get_traced_memory()
                 tracemalloc.stop()
-                print("\nDP:", "Satisfiabil" if rezultat else "Nesatisfiabil")
-                print(f"Timp de executie: {sfarsit - inceput:.6f} secunde")
-                print(f"Memorie utilizata (varf): {mem_varf / 10**6:.6f} MB")
+
+                timp = sfarsit - inceput
+                mem_mb = mem_varf / 10**6
+                sat = "Satisfiabil" if rezultat else "Nesatisfiabil"
+
+                print(f"\nDP: {sat}")
+                print(f"Timp: {timp:.6f}s, Memorie: {mem_mb:.6f}MB")
+
+                log_rezultat(
+                    algoritm="DP",
+                    strategie="",      # DP nu are strategie suplimentară
+                    satisfiabil=sat,
+                    timp=timp,
+                    mem=mem_mb
+                )
 
             case "3":
+                # --- DPLL ---
                 print("\nStrategii DPLL:")
                 print("1. clasica")
                 print("2. aleator")
                 print("3. frecventa")
-                print("4. minima (MOMS)")
+                print("4. minima")
                 sub = input("Alege (1/2/3/4): ")
-                if sub == "1":
-                    strat = "clasica"
-                elif sub == "2":
-                    strat = "aleator"
-                elif sub == "3":
-                    strat = "frecventa"
-                elif sub == "4":
-                    strat = "minima"
-                else:
+                strategie = {"1":"clasica","2":"aleator","3":"frecventa","4":"minima"}.get(sub)
+                if strategie is None:
                     print("Optiune invalida pentru DPLL.")
                     continue
 
-                print(f"Se executa DPLL ({strat}) cu masurarea performantei...")
                 tracemalloc.start()
                 inceput = time.perf_counter()
-                rezultat = DPLL(K, strategie=strat)
+                rezultat = DPLL(K, strategie=strategie)
                 sfarsit = time.perf_counter()
-                mem_curenta, mem_varf = tracemalloc.get_traced_memory()
+                mem_before, mem_varf = tracemalloc.get_traced_memory()
                 tracemalloc.stop()
 
-                print(f"\nDPLL ({strat}):", "Satisfiabil" if rezultat else "Nesatisfiabil")
-                print(f"Timp de executie: {sfarsit - inceput:.6f} secunde")
-                print(f"Memorie utilizata (varf): {mem_varf / 10**6:.6f} MB")
+                timp = sfarsit - inceput
+                mem_mb = mem_varf / 10**6
+                sat = "Satisfiabil" if rezultat else "Nesatisfiabil"
+
+                print(f"\nDPLL ({strategie}): {sat}")
+                print(f"Timp: {timp:.6f}s, Memorie: {mem_mb:.6f}MB")
+
+                log_rezultat(
+                    algoritm="DPLL",
+                    strategie=strategie,
+                    satisfiabil=sat,
+                    timp=timp,
+                    mem=mem_mb
+                )
 
             case "0":
                 break
@@ -293,7 +340,6 @@ def masurare_performanta(K):
         if optiune != "0":
             input("\nApasa Enter pentru a continua...")
             clear()
-
 
 def main():
     clear()
