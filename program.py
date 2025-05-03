@@ -227,6 +227,54 @@ def citire():
         K.append(set(C.split()))
     return K
 
+def shortcut(K):
+    # 1) Rezolutie: clasica si scurta
+    for strategie in ("clasica", "scurta"):
+        print(f"\n>> Rezolutie ({strategie})")
+        tracemalloc.start()
+        t0 = time.perf_counter()
+        sat = rezolutie(K, strategie)
+        dt = time.perf_counter() - t0
+        _, mem_varf = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+
+        sat_txt = "Satisfiabil" if sat else "Nesatisfiabil"
+        mb = mem_varf / 10**6
+        print(f"Timp: {dt:.6f}s, Memorie: {mb:.6f}MB -> {sat_txt}")
+        log_rezultat("Rezolutie", strategie, sat_txt, dt, mb)
+
+    # 2) DP
+    print("\n>> DP")
+    tracemalloc.start()
+    t0 = time.perf_counter()
+    sat = DP(K)
+    dt = time.perf_counter() - t0
+    _, mem_varf = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+
+    sat_txt = "Satisfiabil" if sat else "Nesatisfiabil"
+    mb = mem_varf / 10**6
+    print(f"Timp: {dt:.6f}s, Memorie: {mb:.6f}MB -> {sat_txt}")
+    log_rezultat("DP", "", sat_txt, dt, mb)
+
+    # 3) DPLL: cele patru strategii
+    for strategie in ("clasica", "aleator", "frecventa", "minima"):
+        print(f"\n>> DPLL ({strategie})")
+        tracemalloc.start()
+        t0 = time.perf_counter()
+        sat = DPLL(K, strategie=strategie)
+        dt = time.perf_counter() - t0
+        _, mem_varf = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+
+        sat_txt = "Satisfiabil" if sat else "Nesatisfiabil"
+        mb = mem_varf / 10**6
+        print(f"Timp: {dt:.6f}s, Memorie: {mb:.6f}MB -> {sat_txt}")
+        log_rezultat("DPLL", strategie, sat_txt, dt, mb)
+
+    print(f"\n>> Toate masuratorile au fost efectuate si salvate in {csv_file}")
+
+
 def masurare_performanta(K):
     optiune = ""
     while optiune != "0":
@@ -402,6 +450,8 @@ def main():
                 clear()
                 masurare_performanta(K)
 
+            case "5":
+                shortcut(K)
             case "0":
                 break
 
