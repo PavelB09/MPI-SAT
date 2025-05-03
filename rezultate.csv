@@ -1,8 +1,8 @@
 Algoritm,Strategie,Satisfiabil,Timp (s),Memorie (MB)
-Rezolutie,clasica,Satisfiabil,0.000509,0.002024
-Rezolutie,scurta,Satisfiabil,0.000219,0.002024
-DP,,Satisfiabil,0.000262,0.002024
-DPLL,clasica,Satisfiabil,0.000202,0.002024
-DPLL,aleator,Satisfiabil,0.000188,0.002024
-DPLL,frecventa,Satisfiabil,0.000179,0.002024
-DPLL,minima,Satisfiabil,0.000181,0.002024
+Rezolutie,clasica,Nesatisfiabil,0.064056,0.036234
+Rezolutie,scurta,Nesatisfiabil,0.001642,0.013168
+DP,,Nesatisfiabil,0.000521,0.007752
+DPLL,clasica,Nesatisfiabil,0.000471,0.007752
+DPLL,aleator,Nesatisfiabil,0.000460,0.007752
+DPLL,frecventa,Nesatisfiabil,0.000458,0.007752
+DPLL,minima,Nesatisfiabil,0.000657,0.007752
