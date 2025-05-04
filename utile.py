@@ -1,7 +1,7 @@
 import os
 import time
 import tracemalloc
-from logger import init_csv, log_rezultat
+from logger import log_rezultat
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -25,47 +25,47 @@ def shortcut(K):
     from DP import DP
     from DPLL import DPLL
     
-    # 1) Rezolutie: clasica si scurta
+    # --- Rezolutie ---
     for strategie in ("clasica", "scurta"):
         print(f"\n>> Rezolutie ({strategie})")
         tracemalloc.start()
-        t0 = time.perf_counter()
+        inceput = time.perf_counter()
         sat = rezolutie(K, strategie)
-        dt = time.perf_counter() - t0
+        timp = time.perf_counter() - inceput
         _, mem_varf = tracemalloc.get_traced_memory()
         tracemalloc.stop()
 
-        sat_txt = "Satisfiabil" if sat else "Nesatisfiabil"
+        sat = "Satisfiabil" if sat else "Nesatisfiabil"
         mb = mem_varf / 10**6
-        print(f"Timp: {dt:.6f}s, Memorie: {mb:.6f}MB -> {sat_txt}")
-        log_rezultat("Rezolutie", strategie, sat_txt, dt, mb)
+        print(f"Timp: {timp:.6f}s, Memorie: {mb:.6f}MB -> {sat}")
+        log_rezultat("Rezolutie", strategie, sat, timp, mb)
 
-    # 2) DP
+    # --- DP ---
     print("\n>> DP")
     tracemalloc.start()
-    t0 = time.perf_counter()
+    inceput = time.perf_counter()
     sat = DP(K) 
-    dt = time.perf_counter() - t0
+    timp = time.perf_counter() - inceput
     _, mem_varf = tracemalloc.get_traced_memory()
     tracemalloc.stop()
 
-    sat_txt = "Satisfiabil" if sat else "Nesatisfiabil"
+    sat = "Satisfiabil" if sat else "Nesatisfiabil"
     mb = mem_varf / 10**6
-    print(f"Timp: {dt:.6f}s, Memorie: {mb:.6f}MB -> {sat_txt}")
-    log_rezultat("DP", "", sat_txt, dt, mb)
+    print(f"Timp: {timp:.6f}s, Memorie: {mb:.6f}MB -> {sat}")
+    log_rezultat("DP", "", sat, timp, mb)
 
-    # 3) DPLL: cele patru strategii
+    # --- DPLL ---
     for strategie in ("clasica", "aleator", "frecventa", "minima"):
         print(f"\n>> DPLL ({strategie})")
         tracemalloc.start()
-        t0 = time.perf_counter()
+        inceput = time.perf_counter()
         sat = DPLL(K, strategie=strategie)
-        dt = time.perf_counter() - t0
+        timp = time.perf_counter() - inceput
         _, mem_varf = tracemalloc.get_traced_memory()
         tracemalloc.stop()
 
-        sat_txt = "Satisfiabil" if sat else "Nesatisfiabil"
+        sat = "Satisfiabil" if sat else "Nesatisfiabil"
         mb = mem_varf / 10**6
-        print(f"Timp: {dt:.6f}s, Memorie: {mb:.6f}MB -> {sat_txt}")
-        log_rezultat("DPLL", strategie, sat_txt, dt, mb)
+        print(f"Timp: {timp:.6f}s, Memorie: {mb:.6f}MB -> {sat}")
+        log_rezultat("DPLL", strategie, sat, timp, mb)
 

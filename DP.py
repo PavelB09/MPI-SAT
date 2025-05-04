@@ -45,6 +45,8 @@ def DP(K):
             return True
         if any(len(C) == 0 for C in k_prim):
             return False
+        
+        # Regula 1
         prop_unitate = gaseste_clauza_unit(k_prim)
         if prop_unitate is not None:
             L = prop_unitate.pop()
@@ -52,12 +54,16 @@ def DP(K):
             k_prim = Reg1(k_prim, L)
             print("Multimea de clauze dupa aplicarea regulii:", k_prim)
             continue
+
+        # Regula 2
         lit_pur = gaseste_lit_pur(k_prim)
         if lit_pur is not None:
             print("Aplic regula 2 (literar pur) pentru literalul", lit_pur)
             k_prim = Reg2(k_prim, lit_pur)
             print("Multimea de clauze dupa aplicarea regulii:", k_prim)
             continue
+
+        # Rezolutie
         R = rezolutie(k_prim)
         if R is True:
             return True

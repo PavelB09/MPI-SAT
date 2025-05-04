@@ -29,14 +29,14 @@ def masurare_performanta(K):
 
                 tracemalloc.start()
                 inceput = time.perf_counter()
-                rezultat = rezolutie(K, strategie)
+                sat = rezolutie(K, strategie)
                 sfarsit = time.perf_counter()
-                mem_before, mem_varf = tracemalloc.get_traced_memory()
+                _, mem_varf = tracemalloc.get_traced_memory()
                 tracemalloc.stop()
 
                 timp = sfarsit - inceput
                 mem_mb = mem_varf / 10**6
-                sat = "Satisfiabil" if rezultat else "Nesatisfiabil"
+                sat = "Satisfiabil" if sat else "Nesatisfiabil"
 
                 print(f"\nRezolutie ({strategie}): {sat}")
                 print(f"Timp: {timp:.6f}s, Memorie: {mem_mb:.6f}MB")
@@ -53,14 +53,14 @@ def masurare_performanta(K):
                 # --- DP ---
                 tracemalloc.start()
                 inceput = time.perf_counter()
-                rezultat = DP(K)
+                sat = DP(K)
                 sfarsit = time.perf_counter()
-                mem_before, mem_varf = tracemalloc.get_traced_memory()
+                _, mem_varf = tracemalloc.get_traced_memory()
                 tracemalloc.stop()
 
                 timp = sfarsit - inceput
                 mem_mb = mem_varf / 10**6
-                sat = "Satisfiabil" if rezultat else "Nesatisfiabil"
+                sat = "Satisfiabil" if sat else "Nesatisfiabil"
 
                 print(f"\nDP: {sat}")
                 print(f"Timp: {timp:.6f}s, Memorie: {mem_mb:.6f}MB")
@@ -88,14 +88,14 @@ def masurare_performanta(K):
 
                 tracemalloc.start()
                 inceput = time.perf_counter()
-                rezultat = DPLL(K, strategie=strategie)
+                sat = DPLL(K, strategie=strategie)
                 sfarsit = time.perf_counter()
-                mem_before, mem_varf = tracemalloc.get_traced_memory()
+                _, mem_varf = tracemalloc.get_traced_memory()
                 tracemalloc.stop()
 
                 timp = sfarsit - inceput
                 mem_mb = mem_varf / 10**6
-                sat = "Satisfiabil" if rezultat else "Nesatisfiabil"
+                sat = "Satisfiabil" if sat else "Nesatisfiabil"
 
                 print(f"\nDPLL ({strategie}): {sat}")
                 print(f"Timp: {timp:.6f}s, Memorie: {mem_mb:.6f}MB")
@@ -142,19 +142,19 @@ def main():
                 print("2. scurta")
                 sub = input("Alege (1/2): ")
                 if sub == "1":
-                    metoda = "clasica"
+                    strategie = "clasica"
                 elif sub == "2":
-                    metoda = "scurta"
+                    strategie = "scurta"
                 else:
                     print("Optiune invalida pentru rezolutie.")
                     continue
 
-                rezultat = rezolutie(K, metoda)
-                print(f"\nRezolutie ({metoda}):", "Satisfiabil" if rezultat else "Nesatisfiabil")
+                sat = rezolutie(K, strategie)
+                print(f"\nRezolutie ({strategie}):", "Satisfiabil" if sat else "Nesatisfiabil")
 
             case "2":
-                rezultat = DP(K)
-                print("\nDP:", "Satisfiabil" if rezultat else "Nesatisfiabil")
+                sat = DP(K)
+                print("\nDP:", "Satisfiabil" if sat else "Nesatisfiabil")
 
             case "3":
                 print("\nStrategii DPLL:")
@@ -163,20 +163,14 @@ def main():
                 print("3. frecventa")
                 print("4. minima (MOMS)")
                 sub = input("Alege (1/2/3/4): ")
-                if sub == "1":
-                    strat = "clasica"
-                elif sub == "2":
-                    strat = "aleator"
-                elif sub == "3":
-                    strat = "frecventa"
-                elif sub == "4":
-                    strat = "minima"
-                else:
+                strategie = {"1":"clasica","2":"aleator","3":"frecventa","4":"minima"}.get(sub)
+
+                if strategie is None:
                     print("Optiune invalida pentru DPLL.")
                     continue
 
-                rezultat = DPLL(K, strategie=strat)
-                print(f"\nDPLL ({strat}):", "Satisfiabil" if rezultat else "Nesatisfiabil")
+                sat = DPLL(K, strategie=strategie)
+                print(f"\nDPLL ({strategie}):", "Satisfiabil" if sat else "Nesatisfiabil")
 
             case "4":
                 clear()

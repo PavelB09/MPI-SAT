@@ -1,7 +1,6 @@
 import copy
 from utile import comp
 from DP import Reg1, gaseste_clauza_unit, gaseste_lit_pur, Reg2
-from rezolutie import rezolutie
 
 def strategie_alege_literal(K, strategie="clasica"):
     if strategie == "aleator":
@@ -60,12 +59,12 @@ def DPLL(K, strategie="clasica"):
             L = strategie_alege_literal(k_prim, strategie)
             print("Aplic regula 3 (ramificare) pentru literalul", L)
             k_nou = Reg1(copy.deepcopy(k_prim), L)
-            print("Multimea de clauze dupa aplicarea regulii:", k_prim)
+            print("Multimea de clauze dupa aplicarea regulii:", k_nou)
             if DPLL(k_nou):
                 return True
             comp_l = comp(L)
             print("Aplic regula 3 (ramificare) pentru literalul", comp_l)
             k_nou = Reg1(copy.deepcopy(k_prim), comp_l)
-            print("Multimea de clauze dupa aplicarea regulii:", k_prim)
+            print("Multimea de clauze dupa aplicarea regulii:", k_nou)
             return DPLL(k_nou)
 
