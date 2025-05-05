@@ -9,6 +9,7 @@ _Acesta este repo-ul pentru proiectul meu de la cursul MPI 2025, unde am studiat
 
 4. Shortcut: funcție care rulează toate metodele pe un set de clauze și salvează rezultatele automat într-un CSV (rezultate.csv).
 
+## Structura proiectului
 MPI-SAT
 - main.py           # punctul de intrare și meniul interactiv
 - rezolutie.py      # implementare Rezoluție + strategii
@@ -17,3 +18,5 @@ MPI-SAT
 - utile.py          # funcții ajutătoare (clear, citire, shortcut)
 - logger.py         # scrierea rezultatelor în CSV
 - README.md         # documentația proiectului
+
+Pentru utilizare rulează main.py
