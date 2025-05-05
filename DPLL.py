@@ -30,7 +30,7 @@ def strategie_alege_literal(K, strategie="clasica"):
 def DPLL(K, strategie="clasica"):
     k_prim = copy.deepcopy(K)
     while True:
-        if k_prim is None:
+        if not k_prim:
             return True
         if any(len(C) == 0 for C in k_prim):
             return False
@@ -38,7 +38,8 @@ def DPLL(K, strategie="clasica"):
         # Regula 1
         prop_unitate = gaseste_clauza_unit(k_prim)
         if prop_unitate is not None:
-            L = prop_unitate.pop()
+            # L = prop_unitate.pop()
+            L = prop_unitate
             print("Aplic regula 1 (propagarea unitatii) pentru literalul", L)
             k_prim = Reg1(k_prim, L)
             print("Multimea de clauze dupa aplicarea regulii:", k_prim)
@@ -60,11 +61,11 @@ def DPLL(K, strategie="clasica"):
             print("Aplic regula 3 (ramificare) pentru literalul", L)
             k_nou = Reg1(copy.deepcopy(k_prim), L)
             print("Multimea de clauze dupa aplicarea regulii:", k_nou)
-            if DPLL(k_nou):
+            if DPLL(k_nou, strategie):
                 return True
             comp_l = comp(L)
             print("Aplic regula 3 (ramificare) pentru literalul", comp_l)
             k_nou = Reg1(copy.deepcopy(k_prim), comp_l)
             print("Multimea de clauze dupa aplicarea regulii:", k_nou)
-            return DPLL(k_nou)
+            return DPLL(k_nou, strategie)
 

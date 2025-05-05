@@ -5,7 +5,7 @@ from rezolutie import rezolutie
 def gaseste_clauza_unit(K):
     for C in K:
         if len(C) == 1:
-            return C
+            return next(iter(C)) # am pus in loc de return C
     return None
 
 def Reg1(K, L):
@@ -14,7 +14,9 @@ def Reg1(K, L):
     for C in K:
         if L in C:
             continue
-        if complement in C:
+        c_noua = [l for l in C if l != complement]
+        k_nou.append(c_noua)
+    ''' if complement in C:
             c_noua = C.copy()
             c_noua.remove(complement)
             k_nou.append(c_noua)
@@ -22,7 +24,7 @@ def Reg1(K, L):
             k_nou.append(C)
     for C in k_nou:
         if len(C) == 0:
-            k_nou.remove(C)
+            k_nou.remove(C)'''
     return k_nou
 
 def Reg2(K, L):
@@ -49,7 +51,8 @@ def DP(K):
         # Regula 1
         prop_unitate = gaseste_clauza_unit(k_prim)
         if prop_unitate is not None:
-            L = prop_unitate.pop()
+           # L = prop_unitate.pop()
+            L = prop_unitate
             print("Aplic regula 1 (propagarea unitatii) pentru literalul", L)
             k_prim = Reg1(k_prim, L)
             print("Multimea de clauze dupa aplicarea regulii:", k_prim)
