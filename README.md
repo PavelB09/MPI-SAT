@@ -10,7 +10,6 @@ _Acesta este repo-ul pentru proiectul meu de la cursul MPI 2025, unde am studiat
 4. Shortcut: funcție care rulează toate metodele pe un set de clauze și salvează rezultatele automat într-un CSV (rezultate.csv). Se selectează opțiunea 5 ascunsă.
 
 ## Structura proiectului
-MPI-SAT
 - main.py           # punctul de intrare și meniul interactiv
 - rezolutie.py      # implementare Rezoluție + strategii
 - DP.py             # implementare Davis–Putnam
@@ -19,4 +18,10 @@ MPI-SAT
 - logger.py         # scrierea rezultatelor în CSV
 - README.md         # documentația proiectului
 
-Pentru utilizare rulează main.py
+## Instrucțiuni de utilizare
+❗️Pentru utilizare rulează main.py
+Datele de test se găsesc în fișierul "date de test" și se rulează în felul următor:
+- Copiază datele din fișierul cu extensia .txt
+- Rulează main.py
+- Lipește (paste) conținutul fișierului .txt și apasă tasta ENTER de 2 ori
+- Se alege opțiunea de test dorită din meniu (pentru export in ”rezultate.csv” se alege optiunea măsurarea performanței)

@@ -14,7 +14,7 @@ def strategie_alege_literal(K, strategie="clasica"):
                 frecvente[L] = frecvente.get(L, 0) + 1
         return max(frecvente, key=frecvente.get)
 
-    elif strategie == "minima": # MOMS (Maximum Occurrences in clauses of Minimum Size)
+    elif strategie == "minima":
         lung_min = min(len(C) for C in K)
         contor = {}
 
@@ -38,7 +38,6 @@ def DPLL(K, strategie="clasica"):
         # Regula 1
         prop_unitate = gaseste_clauza_unit(k_prim)
         if prop_unitate is not None:
-            # L = prop_unitate.pop()
             L = prop_unitate
             print("Aplic regula 1 (propagarea unitatii) pentru literalul", L)
             k_prim = Reg1(k_prim, L)
