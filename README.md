@@ -20,6 +20,7 @@ _Acesta este repo-ul pentru proiectul meu de la cursul MPI 2025, unde am studiat
 
 ## Instrucțiuni de utilizare
 ❗️Pentru utilizare rulează main.py
+
 Datele de test se găsesc în fișierul "date de test" și se rulează în felul următor:
 - Copiază datele din fișierul cu extensia .txt
 - Rulează main.py
